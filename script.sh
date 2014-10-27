@@ -34,6 +34,10 @@ FLOW=$3
 # speed for the flow
 SPEED=$4
 
+# For changing the speed of specific flow
+CFLOW=$2
+CSPEED=$3
+
 stop(){
 	tc qdisc del dev $IF root
 
@@ -51,6 +55,10 @@ add(){
 	tc filter add dev $IF protocol ip parent 1:0 prio 1 u32 match ip sport $PORT 0xffff flowid 1:$FLOW
 }
 
+change(){
+	tc class change dev $IF parent 1:1 classid 1:$CFLOW htb rate $CSPEED ceil $CSPEED
+
+}
 restart() {
 
     stop
@@ -99,12 +107,19 @@ case "$1" in
     	show
     	echo ""
     	;;
+    
+    change)
+	echo "changing in bandwidth of specific flow"
+	change
+	echo ""
+	;;
 
     *)
 	pwd=$(pwd)
 	echo "======================== Usage ========================"
 	echo "Start    : ./script.sh {start} {max speed of link}"
 	echo "Add      : ./script.sh {add} {port assigned for this flow} {unique flow ID (int!=12)} {speed of the flow}"
+	echo "Change   : ./script.sh {change} {Flow ID that you want to change} {new speed of the flow}"
 	echo "Stop     : ./script.sh {stop}"
 	echo "Restart  : ./script.sh {restart} {new max speed of link}"
 	echo "======================================================="
