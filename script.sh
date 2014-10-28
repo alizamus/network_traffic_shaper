@@ -38,6 +38,8 @@ SPEED=$4
 CFLOW=$2
 CSPEED=$3
 
+# Sending FLOW ID
+SFLOW=$5
 stop(){
 	tc qdisc del dev $IF root
 
@@ -54,6 +56,14 @@ add(){
 	#tc filter add dev $IF protocol ip parent 1:0 prio 1 u32 match ip dst $IP match ip sport $PORT 0xffff flowid 1:$FLOW
 	tc filter add dev $IF protocol ip parent 1:0 prio 1 u32 match ip sport $PORT 0xffff flowid 1:$FLOW
 }
+
+add2(){
+        tc class add dev $IF parent 1:1 classid 1:$SFLOW htb rate $SPEED ceil $SPEED
+        #tc filter add dev $IF protocol ip parent 1:0 prio 1 u32 match ip dst $IP match ip sport $PORT 0xffff flowid 1:$FLOW
+        tc filter add dev $IF protocol ip parent 1:0 prio 1 u32 match ip dport $PORT 0xffff flowid 1:$SFLOW
+
+}
+
 
 change(){
 	tc class change dev $IF parent 1:1 classid 1:$CFLOW htb rate $CSPEED ceil $CSPEED
@@ -85,6 +95,7 @@ case "$1" in
     add)
 	echo "adding flow"
 	add
+	add2
 	echo "done"
 	;;
 
