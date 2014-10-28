@@ -129,7 +129,7 @@ case "$1" in
 	pwd=$(pwd)
 	echo "======================== Usage ========================"
 	echo "Start    : ./script.sh {start} {max speed of link}"
-	echo "Add      : ./script.sh {add} {port assigned for this flow} {unique flow ID (int!=12)} {speed of the flow}"
+	echo "Add      : ./script.sh {add} {port assigned for this flow} {unique flow ID (int!=12)} {speed of the flow} {another unique flow ID}"
 	echo "Change   : ./script.sh {change} {Flow ID that you want to change} {new speed of the flow}"
 	echo "Stop     : ./script.sh {stop}"
 	echo "Restart  : ./script.sh {restart} {new max speed of link}"
