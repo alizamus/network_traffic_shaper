@@ -2,7 +2,7 @@
 # Script assign bandwidth to each ports.
 echo "<<<<<<<<<<<<<<<<<<<<<<start>>>>>>>>>>>>>>>>>>>>>>"
 ./script.sh stop
-./script.sh start 15mbps
+./script.sh start 30mbps
 ./script.sh add 50001 21 1mbps 121
 ./script.sh add 50002 22 1mbps 122
 ./script.sh add 50003 23 1mbps 123
